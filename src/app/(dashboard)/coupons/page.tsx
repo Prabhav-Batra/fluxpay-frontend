@@ -2,22 +2,22 @@
 
 import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
-import { GenerateApiKeyDialog } from "@/components/dialogs/generate-api-key-dialog";
-import { useApiKeys } from "@/lib/api/hooks";
+import { CreateCouponDialog } from "@/components/dialogs/create-coupon-dialog";
+import { useCoupons } from "@/lib/api/hooks";
 
-export default function ApiKeysPage() {
-  const { data = [], isLoading } = useApiKeys();
+export default function CouponsPage() {
+  const { data = [], isLoading } = useCoupons();
 
   return (
     <div className="flex flex-col gap-6 p-2 md:p-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">API Keys</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Coupons</h2>
           <p className="text-sm text-muted-foreground mt-1">
-            Manage your secret and public API keys to authenticate requests.
+            Create and manage discount codes for your customers.
           </p>
         </div>
-        <GenerateApiKeyDialog />
+        <CreateCouponDialog />
       </div>
       
       {isLoading ? (

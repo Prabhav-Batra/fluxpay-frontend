@@ -5,6 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { CreditCard } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { login } from "@/lib/api/auth";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,10 +35,20 @@ export default function LoginPage() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Basic mock navigation since API isn't fully integrated yet
-    console.log(values);
-    router.push("/dashboard");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setIsLoading(true);
+    setError(null);
+    try {
+      await login(values.email, values.password);
+      router.push("/");
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to login. Please check your credentials.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -90,9 +102,14 @@ export default function LoginPage() {
                 {form.formState.errors.password.message}
               </p>
             )}
+            {error && (
+              <p className="text-sm font-medium text-destructive mt-2 text-center">
+                {error}
+              </p>
+            )}
           </div>
-          <Button type="submit" className="w-full" size="lg">
-            Sign In
+          <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
+            {isLoading ? "Signing in..." : "Sign In"}
           </Button>
         </form>
       </CardContent>

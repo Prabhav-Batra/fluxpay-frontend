@@ -14,10 +14,15 @@ import {
 
 export type Order = {
   id: string;
-  customer: string;
-  date: string;
-  status: "fulfilled" | "processing" | "unfulfilled" | "canceled";
-  total: number;
+  orderReference: string;
+  merchantId: string;
+  customerEmail: string;
+  totalAmount: number;
+  currency: string;
+  status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED" | "REFUNDED" | "CANCELED";
+  paymentLink?: string;
+  lineItems?: any[];
+  createdAt: string;
 };
 
 export const columns: ColumnDef<Order>[] = [
@@ -29,17 +34,25 @@ export const columns: ColumnDef<Order>[] = [
     },
   },
   {
-    accessorKey: "customer",
-    header: "Customer",
+    accessorKey: "orderReference",
+    header: "Order Ref",
     cell: ({ row }) => {
-      return <div className="font-medium">{row.getValue("customer")}</div>;
+      return <div className="font-mono text-xs text-muted-foreground">{row.getValue("orderReference")}</div>;
     },
   },
   {
-    accessorKey: "date",
+    accessorKey: "customerEmail",
+    header: "Customer",
+    cell: ({ row }) => {
+      return <div className="font-medium">{row.getValue("customerEmail")}</div>;
+    },
+  },
+  {
+    accessorKey: "createdAt",
     header: "Date",
     cell: ({ row }) => {
-      return <div className="text-sm text-muted-foreground">{row.getValue("date")}</div>;
+      const date = new Date(row.getValue("createdAt"));
+      return <div className="text-sm text-muted-foreground">{date.toLocaleDateString()}</div>;
     },
   },
   {
@@ -49,24 +62,25 @@ export const columns: ColumnDef<Order>[] = [
       const status = row.getValue("status") as string;
       return (
         <div className={`capitalize text-xs px-2 py-1 rounded-md inline-flex items-center justify-center font-medium ${
-          status === "fulfilled" ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" :
-          status === "processing" ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" :
-          status === "unfulfilled" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+          status === "COMPLETED" ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" :
+          status === "PROCESSING" ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" :
+          status === "PENDING" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
           "bg-muted text-muted-foreground"
         }`}>
-          {status}
+          {status.toLowerCase()}
         </div>
       );
     },
   },
   {
-    accessorKey: "total",
+    accessorKey: "totalAmount",
     header: () => <div className="text-right">Total</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("total"));
+      const amount = parseFloat(row.getValue("totalAmount"));
+      const currency = row.original.currency || "USD";
       const formatted = new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: "USD",
+        currency: currency,
       }).format(amount);
  
       return <div className="text-right font-medium">{formatted}</div>;

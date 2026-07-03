@@ -26,8 +26,8 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Handle unauthorized (e.g., redirect to login)
+    if (error.response?.status === 401 || error.response?.status === 403) {
+      // Handle unauthorized or expired token (redirect to login)
       if (typeof window !== "undefined") {
         window.location.href = "/login";
       }

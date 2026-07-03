@@ -4,6 +4,7 @@ import { Download } from "lucide-react";
 import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
+import { CreateSubscriptionDialog } from "@/components/dialogs/create-subscription-dialog";
 import { useSubscriptions } from "@/lib/api/hooks";
 
 export default function SubscriptionsPage() {
@@ -18,10 +19,13 @@ export default function SubscriptionsPage() {
             View and manage recurring billing for your customers.
           </p>
         </div>
-        <Button variant="outline">
-          <Download className="mr-2 h-4 w-4" />
-          Export CSV
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline">
+            <Download className="mr-2 h-4 w-4" />
+            Export CSV
+          </Button>
+          <CreateSubscriptionDialog />
+        </div>
       </div>
       
       {isLoading ? (

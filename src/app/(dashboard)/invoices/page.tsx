@@ -4,6 +4,7 @@ import { Download, Plus, Filter } from "lucide-react";
 import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
+import { CreateInvoiceDialog } from "@/components/dialogs/create-invoice-dialog";
 import { useInvoices } from "@/lib/api/hooks";
 
 export default function InvoicesPage() {
@@ -27,10 +28,7 @@ export default function InvoicesPage() {
             <Download className="mr-2 h-4 w-4" />
             Export
           </Button>
-          <Button>
-            <Plus className="mr-2 h-4 w-4" />
-            Create Invoice
-          </Button>
+          <CreateInvoiceDialog />
         </div>
       </div>
       

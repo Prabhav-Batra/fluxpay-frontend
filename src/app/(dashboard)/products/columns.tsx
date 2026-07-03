@@ -15,9 +15,13 @@ import {
 export type Product = {
   id: string;
   name: string;
-  status: "active" | "draft" | "archived";
+  description: string;
   price: number;
   currency: string;
+  merchantId: string;
+  metadata?: Record<string, any>;
+  active: boolean;
+  createdAt: string;
 };
 
 export const columns: ColumnDef<Product>[] = [
@@ -29,13 +33,13 @@ export const columns: ColumnDef<Product>[] = [
     },
   },
   {
-    accessorKey: "status",
+    accessorKey: "active",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status") as string;
+      const isActive = row.getValue("active") as boolean;
       return (
         <div className="capitalize text-xs px-2 py-1 bg-muted rounded-md inline-flex items-center justify-center font-medium">
-          {status}
+          {isActive ? "Active" : "Inactive"}
         </div>
       );
     },

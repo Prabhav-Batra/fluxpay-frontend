@@ -8,6 +8,7 @@ import {
   LayoutDashboard,
   LifeBuoy,
   LogOut,
+  Layers,
   Receipt,
   Settings,
   Settings2,
@@ -18,6 +19,7 @@ import {
   Activity,
   Terminal,
   Key,
+  Package,
 } from "lucide-react";
 
 import {
@@ -75,9 +77,19 @@ const data = {
       icon: Box,
     },
     {
+      title: "Products",
+      url: "/products",
+      icon: Package,
+    },
+    {
       title: "Subscriptions",
       url: "/subscriptions",
       icon: Wallet,
+    },
+    {
+      title: "Digital Assets",
+      url: "/assets",
+      icon: Layers,
     },
     {
       title: "Invoices",

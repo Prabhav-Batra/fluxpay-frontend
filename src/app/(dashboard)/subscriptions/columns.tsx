@@ -14,31 +14,33 @@ import {
 
 export type Subscription = {
   id: string;
-  customer: string;
-  email: string;
-  status: "active" | "past_due" | "canceled";
-  plan: string;
-  amount: number;
+  merchantId: string;
+  customerEmail: string;
+  productId: string;
+  status: "ACTIVE" | "PAST_DUE" | "CANCELED";
+  currentPeriodStart: string;
+  currentPeriodEnd: string;
+  cancelAtPeriodEnd: boolean;
+  createdAt: string;
 };
 
 export const columns: ColumnDef<Subscription>[] = [
   {
-    accessorKey: "customer",
+    accessorKey: "customerEmail",
     header: "Customer",
     cell: ({ row }) => {
       return (
         <div className="flex flex-col">
-          <span className="font-medium">{row.getValue("customer")}</span>
-          <span className="text-xs text-muted-foreground">{row.original.email}</span>
+          <span className="font-medium">{row.getValue("customerEmail")}</span>
         </div>
       );
     },
   },
   {
-    accessorKey: "plan",
-    header: "Plan",
+    accessorKey: "productId",
+    header: "Product ID",
     cell: ({ row }) => {
-      return <div className="text-sm">{row.getValue("plan")}</div>;
+      return <div className="text-sm">{row.getValue("productId")}</div>;
     },
   },
   {
@@ -48,26 +50,21 @@ export const columns: ColumnDef<Subscription>[] = [
       const status = row.getValue("status") as string;
       return (
         <div className={`capitalize text-xs px-2 py-1 rounded-md inline-flex items-center justify-center font-medium ${
-          status === "active" ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" :
-          status === "past_due" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
+          status === "ACTIVE" ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400" :
+          status === "PAST_DUE" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" :
           "bg-muted text-muted-foreground"
         }`}>
-          {status.replace("_", " ")}
+          {status.replace("_", " ").toLowerCase()}
         </div>
       );
     },
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "currentPeriodEnd",
+    header: () => <div className="text-right">Renews / Ends</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount);
- 
-      return <div className="text-right font-medium">{formatted}</div>;
+      const date = new Date(row.getValue("currentPeriodEnd"));
+      return <div className="text-right text-sm">{date.toLocaleDateString()}</div>;
     },
   },
   {
