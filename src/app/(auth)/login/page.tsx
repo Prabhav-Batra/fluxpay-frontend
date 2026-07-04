@@ -7,6 +7,7 @@ import { CreditCard } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { login } from "@/lib/api/auth";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -116,9 +117,9 @@ export default function LoginPage() {
       <CardFooter className="flex flex-col space-y-4 pb-8">
         <div className="text-center text-sm text-muted-foreground">
           Don&apos;t have an account?{" "}
-          <a href="#" className="font-semibold text-foreground hover:underline">
-            Contact sales
-          </a>
+          <Link href="/register" className="font-semibold text-foreground hover:underline">
+            Register
+          </Link>
         </div>
       </CardFooter>
     </Card>
