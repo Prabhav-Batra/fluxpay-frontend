@@ -1,0 +1,18 @@
+# ProjectOS - Frontend Architecture Constraints
+
+version: v1.0.0
+level: FRONTEND
+target: "fluxpay-frontend/**"
+
+rules:
+  - id: server_client_components
+    description: "All Next.js components must explicitly declare 'use client' at the top if they use hooks (useState, useEffect, useQuery) or browser APIs. Otherwise, they default to Server Components."
+    enforcement: BLOCKING
+  
+  - id: strict_ui_encapsulation
+    description: "All UI components must be placed in `src/components/ui`. Business-logic heavy components must be placed in `src/components/feature-name`. Page files (`page.tsx`) must remain thin and delegate logic to components."
+    enforcement: BLOCKING
+
+  - id: api_client_isolation
+    description: "No component shall make direct `fetch()` calls. All network requests must use the pre-configured `apiClient` instance located in `src/lib/api/axios.ts` to ensure automatic JWT token injection."
+    enforcement: BLOCKING
