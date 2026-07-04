@@ -58,6 +58,7 @@ export function CreateCreditPackDialog({
   const [internalOpen, setInternalOpen] = useState(false);
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
   const setOpen = controlledOnOpenChange || setInternalOpen;
+  const [error, setError] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
   const { data: assets } = useAssets();
@@ -76,6 +77,7 @@ export function CreateCreditPackDialog({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setError(null);
     try {
       await apiClient.post("/products", {
         name: values.name,
@@ -88,15 +90,16 @@ export function CreateCreditPackDialog({
         assets: [
           {
             assetId: values.assetId,
-            quantityGranted: parseInt(values.quantityGranted),
+            quantity: parseInt(values.quantityGranted),
           }
         ],
       });
       queryClient.invalidateQueries({ queryKey: ["products"] });
       setOpen(false);
       form.reset();
-    } catch (error) {
-      console.error("Failed to create credit pack:", error);
+    } catch (err: any) {
+      console.error("Failed to create credit pack:", err);
+      setError(err.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -112,6 +115,11 @@ export function CreateCreditPackDialog({
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
+                {error}
+              </div>
+            )}
             <FormField
               control={form.control}
               name="name"

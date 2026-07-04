@@ -55,6 +55,7 @@ export function CreateOneTimeDialog({
   const [internalOpen, setInternalOpen] = useState(false);
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
   const setOpen = controlledOnOpenChange || setInternalOpen;
+  const [error, setError] = useState<string | null>(null);
 
   const queryClient = useQueryClient();
   
@@ -70,6 +71,7 @@ export function CreateOneTimeDialog({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setError(null);
     try {
       await apiClient.post("/products", {
         name: values.name,
@@ -83,8 +85,9 @@ export function CreateOneTimeDialog({
       queryClient.invalidateQueries({ queryKey: ["products"] });
       setOpen(false);
       form.reset();
-    } catch (error) {
-      console.error("Failed to create one-time product:", error);
+    } catch (err: any) {
+      console.error("Failed to create one-time product:", err);
+      setError(err.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -100,6 +103,11 @@ export function CreateOneTimeDialog({
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
+                {error}
+              </div>
+            )}
             <FormField
               control={form.control}
               name="name"

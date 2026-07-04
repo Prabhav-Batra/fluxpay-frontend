@@ -58,6 +58,7 @@ export function CreateSubscriptionDialog({
   const [internalOpen, setInternalOpen] = useState(false);
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
   const setOpen = controlledOnOpenChange || setInternalOpen;
+  const [error, setError] = useState<string | null>(null);
   
   const queryClient = useQueryClient();
   
@@ -76,6 +77,7 @@ export function CreateSubscriptionDialog({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setError(null);
     try {
       const benefitsArray = values.benefits 
         ? values.benefits.split('\n').map(b => b.trim()).filter(b => b.length > 0)
@@ -96,8 +98,9 @@ export function CreateSubscriptionDialog({
       queryClient.invalidateQueries({ queryKey: ["products"] });
       setOpen(false);
       form.reset();
-    } catch (error) {
-      console.error("Failed to create subscription:", error);
+    } catch (err: any) {
+      console.error("Failed to create subscription:", err);
+      setError(err.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
 
@@ -112,7 +115,12 @@ export function CreateSubscriptionDialog({
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 pt-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm">
+                {error}
+              </div>
+            )}
             <FormField
               control={form.control}
               name="name"
