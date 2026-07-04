@@ -94,7 +94,7 @@ export function OverviewChart() {
             color: "var(--foreground)",
           }}
           itemStyle={{ color: "var(--foreground)", fontWeight: 600 }}
-          formatter={(value: any) => [`$${value}`, "Revenue"]}
+          formatter={(value: unknown) => [`$${value}`, "Revenue"]}
         />
         <Area
           type="monotone"

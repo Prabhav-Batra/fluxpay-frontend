@@ -61,7 +61,7 @@ export default function ProductBuilderPage() {
   const router = useRouter();
   const { data: availableAssets } = useAssets();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successData, setSuccessData] = useState<any>(null);
+  const [successData, setSuccessData] = useState<Record<string, unknown> | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -117,15 +117,15 @@ export default function ProductBuilderPage() {
               <CardTitle className="text-green-800">Product Created Successfully</CardTitle>
             </div>
             <CardDescription className="text-green-700">
-              Your product "{successData.name}" is now live and ready to accept payments.
+              Your product &quot;{successData.name as string}&quot; is now live and ready to accept payments.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <p className="text-sm font-medium text-green-900 mb-1">Hosted Checkout URL</p>
               <div className="flex items-center space-x-2">
-                <Input readOnly value={successData.hostedCheckoutUrl} className="bg-white" />
-                <Button variant="outline" onClick={() => navigator.clipboard.writeText(successData.hostedCheckoutUrl)}>
+                <Input readOnly value={successData.hostedCheckoutUrl as string} className="bg-white" />
+                <Button variant="outline" onClick={() => navigator.clipboard.writeText(successData.hostedCheckoutUrl as string)}>
                   Copy
                 </Button>
               </div>
@@ -359,7 +359,7 @@ export default function ProductBuilderPage() {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {availableAssets?.map((a: any) => (
+                                {availableAssets?.map((a: { id: string; name: string; internalKey: string }) => (
                                   <SelectItem key={a.id} value={a.id}>{a.name} ({a.internalKey})</SelectItem>
                                 ))}
                               </SelectContent>

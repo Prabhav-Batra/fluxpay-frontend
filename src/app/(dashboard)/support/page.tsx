@@ -56,7 +56,7 @@ export default function SupportPage() {
             <Mail className="h-8 w-8 mb-2 text-primary" />
             <CardTitle>Contact Support</CardTitle>
             <CardDescription>
-              Can't find what you're looking for? Our team is here to help.
+              Can&apos;t find what you&apos;re looking for? Our team is here to help.
             </CardDescription>
           </CardHeader>
           <CardContent className="text-sm text-muted-foreground">

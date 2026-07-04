@@ -21,7 +21,7 @@ export type Order = {
   currency: string;
   status: "PENDING" | "PROCESSING" | "COMPLETED" | "FAILED" | "REFUNDED" | "CANCELED";
   paymentLink?: string;
-  lineItems?: any[];
+  lineItems?: Record<string, unknown>[];
   createdAt: string;
 };
 

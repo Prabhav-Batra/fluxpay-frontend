@@ -19,7 +19,7 @@ export type Product = {
   price: number;
   currency: string;
   merchantId: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   active: boolean;
   createdAt: string;
 };

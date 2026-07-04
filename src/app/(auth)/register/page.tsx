@@ -51,8 +51,9 @@ export default function RegisterPage() {
         // Push to onboarding
         router.push("/onboarding");
       }
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Something went wrong. Please try again.");
+    } catch (err) {
+      const apiError = err as { response?: { data?: { message?: string } } };
+      setError(apiError.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setIsLoading(false);
     }

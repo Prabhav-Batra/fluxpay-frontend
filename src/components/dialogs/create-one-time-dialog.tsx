@@ -85,9 +85,10 @@ export function CreateOneTimeDialog({
       queryClient.invalidateQueries({ queryKey: ["products"] });
       setOpen(false);
       form.reset();
-    } catch (err: any) {
-      console.error("Failed to create one-time product:", err);
-      setError(err.response?.data?.message || "Something went wrong. Please try again.");
+    } catch (err) {
+      const apiError = err as { response?: { data?: { message?: string } } };
+      console.error("Failed to create one-time product:", apiError);
+      setError(apiError.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
 

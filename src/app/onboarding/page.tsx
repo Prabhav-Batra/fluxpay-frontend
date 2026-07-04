@@ -23,7 +23,9 @@ export default function OnboardingPage() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedId = localStorage.getItem("fluxpay_merchant_id");
-      if (storedId) setMerchantId(storedId);
+      if (storedId) {
+        setTimeout(() => setMerchantId(storedId), 0);
+      }
     }
   }, []);
 
@@ -49,7 +51,7 @@ export default function OnboardingPage() {
 
     setIsLoading(true);
     try {
-      const app = await createApplication(appName, orgId);
+      await createApplication(appName, orgId);
       
       // We should NOT overwrite fluxpay_merchant_id with app.id!
       // The merchant ID should remain the user's merchant ID.
@@ -118,7 +120,7 @@ export default function OnboardingPage() {
         {step === 2 && (
           <div className="bg-card border border-border rounded-3xl p-10 shadow-xl animate-in fade-in slide-in-from-bottom-8 duration-500">
             <h2 className="text-3xl font-bold text-foreground mb-2">Create your first App</h2>
-            <p className="text-muted-foreground mb-8">An app represents a specific game or website where you'll sell products.</p>
+            <p className="text-muted-foreground mb-8">An app represents a specific game or website where you&apos;ll sell products.</p>
             
             <form onSubmit={handleCreateApp} className="space-y-6">
               <div>
@@ -148,7 +150,7 @@ export default function OnboardingPage() {
             <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="w-10 h-10" />
             </div>
-            <h2 className="text-3xl font-bold text-foreground mb-4">You're all set!</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-4">You&apos;re all set!</h2>
             <p className="text-muted-foreground mb-8 text-lg">
               Your organization and application are ready. You can now start creating digital assets and products.
             </p>

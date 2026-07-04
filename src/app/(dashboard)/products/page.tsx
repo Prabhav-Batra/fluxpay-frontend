@@ -4,7 +4,7 @@ import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
-import Link from "next/link";
+
 import { useProducts } from "@/lib/api/hooks";
 
 import { CreateSubscriptionDialog } from "@/components/dialogs/create-subscription-dialog";

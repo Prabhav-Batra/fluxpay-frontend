@@ -51,7 +51,7 @@ export const columns: ColumnDef<ApiKey>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger render={

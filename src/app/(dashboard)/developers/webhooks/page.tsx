@@ -25,7 +25,7 @@ export default function WebhooksPage() {
   };
 
   useEffect(() => {
-    fetchEndpoints();
+    setTimeout(fetchEndpoints, 0);
   }, []);
 
   const handleDelete = async (id: string) => {
@@ -59,7 +59,7 @@ export default function WebhooksPage() {
           <h3 className="text-amber-500 font-medium">Security Notice</h3>
           <p className="text-amber-500/80 text-sm mt-1">
             Always verify webhook signatures to ensure events actually originated from FluxPay.
-            Your endpoint's signing secret is displayed below. Keep it safe.
+            Your endpoint&apos;s signing secret is displayed below. Keep it safe.
           </p>
         </div>
       </div>

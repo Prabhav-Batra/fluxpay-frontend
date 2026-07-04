@@ -1,8 +1,9 @@
 "use client";
 
+import Link from "next/link";
+
 import * as React from "react";
 import {
-  BookOpen,
   Box,
   CreditCard,
   LayoutDashboard,
@@ -34,9 +35,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -146,7 +144,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={
-              <a href="/">
+              <Link href="/">
                 <div className="bg-primary text-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
                   <CreditCard className="size-4" />
                 </div>
@@ -154,7 +152,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   <span className="truncate font-semibold">FluxPay</span>
                   <span className="truncate text-xs">Production</span>
                 </div>
-              </a>
+              </Link>
             } />
           </SidebarMenuItem>
         </SidebarMenu>

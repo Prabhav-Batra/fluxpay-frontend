@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Plus, Filter } from "lucide-react";
+import { Download, Filter } from "lucide-react";
 import { columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import { Button } from "@/components/ui/button";

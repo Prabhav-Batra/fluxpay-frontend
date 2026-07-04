@@ -97,9 +97,10 @@ export function CreateCreditPackDialog({
       queryClient.invalidateQueries({ queryKey: ["products"] });
       setOpen(false);
       form.reset();
-    } catch (err: any) {
-      console.error("Failed to create credit pack:", err);
-      setError(err.response?.data?.message || "Something went wrong. Please try again.");
+    } catch (err) {
+      const apiError = err as { response?: { data?: { message?: string } } };
+      console.error("Failed to create credit pack:", apiError);
+      setError(apiError.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
 

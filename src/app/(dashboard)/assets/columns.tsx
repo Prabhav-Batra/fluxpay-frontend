@@ -12,7 +12,7 @@ export type Asset = {
   maxValue?: string;
   displayIcon?: string;
   displayColor?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
   active: boolean;
   createdAt: string;
 };
@@ -45,10 +45,10 @@ export const columns: ColumnDef<Asset>[] = [
     cell: ({ row }) => {
       const metadata = row.original.metadata;
       if (metadata?.price && metadata?.currency) {
-        const amount = parseFloat(metadata.price);
+        const amount = parseFloat(metadata.price as string);
         return new Intl.NumberFormat("en-US", {
           style: "currency",
-          currency: metadata.currency,
+          currency: metadata.currency as string,
         }).format(amount);
       }
       return <span className="text-muted-foreground">-</span>;

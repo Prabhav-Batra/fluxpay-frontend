@@ -98,9 +98,10 @@ export function CreateSubscriptionDialog({
       queryClient.invalidateQueries({ queryKey: ["products"] });
       setOpen(false);
       form.reset();
-    } catch (err: any) {
-      console.error("Failed to create subscription:", err);
-      setError(err.response?.data?.message || "Something went wrong. Please try again.");
+    } catch (err) {
+      const apiError = err as { response?: { data?: { message?: string } } };
+      console.error("Failed to create subscription:", apiError);
+      setError(apiError.response?.data?.message || "Something went wrong. Please try again.");
     }
   };
 

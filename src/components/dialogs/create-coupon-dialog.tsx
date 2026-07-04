@@ -56,7 +56,7 @@ export function CreateCouponDialog() {
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      const payload: any = {
+      const payload: Record<string, string | number> = {
         code: data.code.toUpperCase(),
         discountType: data.discountType,
         discountValue: parseFloat(data.discountValue),

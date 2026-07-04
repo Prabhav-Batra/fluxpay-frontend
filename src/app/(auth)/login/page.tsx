@@ -45,8 +45,9 @@ export default function LoginPage() {
     try {
       await login(values.email, values.password);
       router.push("/");
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to login. Please check your credentials.");
+    } catch (err) {
+      const apiError = err as { response?: { data?: { message?: string } } };
+      setError(apiError.response?.data?.message || "Failed to login. Please check your credentials.");
     } finally {
       setIsLoading(false);
     }
