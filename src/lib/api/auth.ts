@@ -23,8 +23,8 @@ export const login = async (email: string, password: string): Promise<LoginRespo
   if (data && data.token) {
     if (typeof window !== "undefined") {
       localStorage.setItem("fluxpay_token", data.token);
-      if (data.user?.merchantId) {
-        localStorage.setItem("fluxpay_merchant_id", data.user.merchantId);
+      if (data.merchantId) {
+        localStorage.setItem("fluxpay_merchant_id", data.merchantId);
       }
     }
   }
