@@ -21,6 +21,7 @@ import {
   Key,
   Package,
 } from "lucide-react";
+import { logout } from "@/lib/api/auth";
 
 import {
   Sidebar,
@@ -261,7 +262,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
+                <DropdownMenuItem onClick={logout} className="cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
                   Log out
                 </DropdownMenuItem>
