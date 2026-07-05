@@ -34,7 +34,11 @@ import { apiClient } from "@/lib/api/axios";
 import { getMerchantId } from "@/lib/api/auth";
 import { useAssets } from "@/lib/api/hooks";
 
-const formSchema = z.object({
+import { ProductDetailsForm } from "@/components/products/product-details-form";
+import { ProductPricingForm } from "@/components/products/product-pricing-form";
+import { ProductSuccessView } from "@/components/products/product-success-view";
+
+export const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   description: z.string().optional(),
   productType: z.enum(["SUBSCRIPTION", "CREDIT_PACK", "BUNDLE", "ONE_TIME"]),
@@ -108,35 +112,7 @@ export default function ProductBuilderPage() {
   };
 
   if (successData) {
-    return (
-      <div className="flex-1 space-y-4 p-8 pt-6 max-w-4xl mx-auto">
-        <Card className="border-green-200 bg-green-50/50">
-          <CardHeader>
-            <div className="flex items-center space-x-2">
-              <CheckCircle2 className="h-6 w-6 text-green-600" />
-              <CardTitle className="text-green-800">Product Created Successfully</CardTitle>
-            </div>
-            <CardDescription className="text-green-700">
-              Your product &quot;{successData.name as string}&quot; is now live and ready to accept payments.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <p className="text-sm font-medium text-green-900 mb-1">Hosted Checkout URL</p>
-              <div className="flex items-center space-x-2">
-                <Input readOnly value={successData.hostedCheckoutUrl as string} className="bg-white" />
-                <Button variant="outline" onClick={() => navigator.clipboard.writeText(successData.hostedCheckoutUrl as string)}>
-                  Copy
-                </Button>
-              </div>
-            </div>
-            <Button onClick={() => router.push("/products")} className="mt-4">
-              Return to Products
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    return <ProductSuccessView successData={successData} />;
   }
 
   return (
@@ -165,32 +141,7 @@ export default function ProductBuilderPage() {
                   <CardDescription>Give your product a name and describe what customers get.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Product Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. VIP Subscription, 500 Coins Pack" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="description"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <Textarea placeholder="Describe the benefits and features..." className="min-h-[120px]" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                  <ProductDetailsForm form={form} />
                 </CardContent>
               </Card>
             </TabsContent>
@@ -202,137 +153,7 @@ export default function ProductBuilderPage() {
                   <CardDescription>Configure how this product is billed.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="productType"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Product Type</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select type" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="ONE_TIME">One-Time Purchase</SelectItem>
-                            <SelectItem value="SUBSCRIPTION">Subscription Plan</SelectItem>
-                            <SelectItem value="CREDIT_PACK">Credit / Token Pack</SelectItem>
-                            <SelectItem value="BUNDLE">Bundle (Multiple items)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="price"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Price</FormLabel>
-                          <FormControl>
-                            <Input placeholder="0.00" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="currency"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Currency</FormLabel>
-                          <FormControl>
-                            <Input placeholder="INR" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  {currentProductType === "SUBSCRIPTION" && (
-                    <>
-                      <Separator />
-                      <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="billingCycle"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Billing Cycle</FormLabel>
-                              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                  <SelectTrigger>
-                                    <SelectValue placeholder="Select cycle" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  <SelectItem value="DAILY">Daily</SelectItem>
-                                  <SelectItem value="WEEKLY">Weekly</SelectItem>
-                                  <SelectItem value="MONTHLY">Monthly</SelectItem>
-                                  <SelectItem value="YEARLY">Yearly</SelectItem>
-                                </SelectContent>
-                              </Select>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="trialPeriodDays"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Trial Period (Days)</FormLabel>
-                              <FormControl>
-                                <Input placeholder="14" {...field} />
-                              </FormControl>
-                              <FormDescription>Leave blank for no trial.</FormDescription>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </>
-                  )}
-
-                  {currentProductType === "CREDIT_PACK" && (
-                    <>
-                      <Separator />
-                      <div className="grid grid-cols-2 gap-4">
-                        <FormField
-                          control={form.control}
-                          name="baseCredits"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Base Credits Amount</FormLabel>
-                              <FormControl>
-                                <Input placeholder="500" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="bonusCredits"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Bonus Credits (Optional)</FormLabel>
-                              <FormControl>
-                                <Input placeholder="50" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-                    </>
-                  )}
+                  <ProductPricingForm form={form} />
                 </CardContent>
               </Card>
             </TabsContent>
