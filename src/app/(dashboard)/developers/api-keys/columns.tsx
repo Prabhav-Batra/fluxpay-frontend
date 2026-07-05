@@ -14,39 +14,46 @@ import {
 
 export type ApiKey = {
   id: string;
-  name: string;
-  token: string;
-  created: string;
-  lastUsed: string;
+  mode: string;
+  keyPrefix: string;
+  createdAt: string;
+  active: boolean;
 };
 
 export const columns: ColumnDef<ApiKey>[] = [
   {
-    accessorKey: "name",
-    header: "Name",
+    accessorKey: "mode",
+    header: "Mode",
     cell: ({ row }) => {
-      return <div className="font-medium">{row.getValue("name")}</div>;
+      const mode = row.getValue("mode") as string;
+      return <div className="font-medium">{mode === "LIVE" ? "Live Key" : "Test Key"}</div>;
     },
   },
   {
-    accessorKey: "token",
-    header: "Token",
+    accessorKey: "keyPrefix",
+    header: "Token Prefix",
     cell: ({ row }) => {
-      return <div className="font-mono text-xs text-muted-foreground bg-muted px-2 py-1 rounded w-fit">{row.getValue("token")}</div>;
+      return <div className="font-mono text-xs text-muted-foreground bg-muted px-2 py-1 rounded w-fit">{row.getValue("keyPrefix")}***</div>;
     },
   },
   {
-    accessorKey: "created",
-    header: "Created",
+    accessorKey: "createdAt",
+    header: "Created At",
     cell: ({ row }) => {
-      return <div className="text-sm text-muted-foreground">{row.getValue("created")}</div>;
+      const date = new Date(row.getValue("createdAt") as string);
+      return <div className="text-sm text-muted-foreground">{date.toLocaleDateString()}</div>;
     },
   },
   {
-    accessorKey: "lastUsed",
-    header: "Last Used",
+    accessorKey: "active",
+    header: "Status",
     cell: ({ row }) => {
-      return <div className="text-sm text-muted-foreground">{row.getValue("lastUsed")}</div>;
+      const isActive = row.getValue("active") as boolean;
+      return (
+        <div className="capitalize text-xs px-2 py-1 bg-muted rounded-md inline-flex items-center justify-center font-medium">
+          {isActive ? "Active" : "Revoked"}
+        </div>
+      );
     },
   },
   {
