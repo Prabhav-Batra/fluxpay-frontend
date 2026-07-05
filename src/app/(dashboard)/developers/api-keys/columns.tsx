@@ -58,9 +58,7 @@ export const columns: ColumnDef<ApiKey>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const keyId = row.original.id;
-
+    cell: () => {
       return (
         <DropdownMenu>
           <DropdownMenuTrigger render={
@@ -71,9 +69,6 @@ export const columns: ColumnDef<ApiKey>[] = [
           } />
           <DropdownMenuContent align="end">
             <DropdownMenuGroup><DropdownMenuLabel>Actions</DropdownMenuLabel></DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => navigator.clipboard.writeText(keyId)}>
-              Copy Key ID
-            </DropdownMenuItem>
             <DropdownMenuItem>Roll key</DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="text-destructive">Revoke key</DropdownMenuItem>
