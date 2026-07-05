@@ -17,8 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { apiClient } from "@/lib/api/axios";
-
-const TEMP_MERCHANT_ID = "00000000-0000-0000-0000-000000000000";
+import { getMerchantId } from "@/lib/api/auth";
 
 type FormData = {
   url: string;
@@ -41,7 +40,7 @@ export function CreateWebhookDialog() {
     try {
       const payload = {
         url: data.url,
-        merchantId: TEMP_MERCHANT_ID,
+        merchantId: getMerchantId(),
       };
       
       await apiClient.post(`/webhooks`, payload);

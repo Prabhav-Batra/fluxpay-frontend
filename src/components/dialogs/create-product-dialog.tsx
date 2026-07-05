@@ -25,9 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { apiClient } from "@/lib/api/axios";
-
-// Temporary fallback merchant ID for development until Auth is fully wired
-const TEMP_MERCHANT_ID = "00000000-0000-0000-0000-000000000000";
+import { getMerchantId } from "@/lib/api/auth";
 
 type FormData = {
   name: string;
@@ -61,7 +59,7 @@ export function CreateProductDialog() {
         description: data.description,
         price: parseFloat(data.price),
         currency: data.currency,
-        merchantId: TEMP_MERCHANT_ID,
+        merchantId: getMerchantId(),
       };
       
       await apiClient.post(`/products`, payload);
