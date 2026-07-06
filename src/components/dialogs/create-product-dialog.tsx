@@ -38,7 +38,7 @@ export function CreateProductDialog() {
   const [open, setOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const queryClient = useQueryClient();
-  
+
   const {
     register,
     handleSubmit,
@@ -47,7 +47,7 @@ export function CreateProductDialog() {
     formState: { errors },
   } = useForm<FormData>({
     defaultValues: {
-      currency: "USD",
+      currency: "INR",
     }
   });
 
@@ -60,8 +60,10 @@ export function CreateProductDialog() {
         price: parseFloat(data.price),
         currency: data.currency,
         merchantId: getMerchantId(),
+        productType: "ONE_TIME",
+        visibility: "PUBLIC",
       };
-      
+
       await apiClient.post(`/products`, payload);
       queryClient.invalidateQueries({ queryKey: ["products"] });
       setOpen(false);
@@ -92,37 +94,37 @@ export function CreateProductDialog() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 py-4">
           <div className="space-y-2">
             <Label htmlFor="name">Name <span className="text-destructive">*</span></Label>
-            <Input 
-              id="name" 
-              placeholder="e.g. 19 JexCoins Bundle" 
-              {...register("name", { required: "Name is required" })} 
+            <Input
+              id="name"
+              placeholder="e.g. 19 JexCoins Bundle"
+              {...register("name", { required: "Name is required" })}
             />
             {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="description">Description</Label>
-            <Textarea 
-              id="description" 
-              placeholder="What is this product?" 
-              {...register("description")} 
+            <Textarea
+              id="description"
+              placeholder="What is this product?"
+              {...register("description")}
             />
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="price">Price <span className="text-destructive">*</span></Label>
-              <Input 
-                id="price" 
+              <Input
+                id="price"
                 type="number"
                 step="0.01"
                 min="0"
-                placeholder="50.00" 
-                {...register("price", { required: "Price is required", min: 0 })} 
+                placeholder="50.00"
+                {...register("price", { required: "Price is required", min: 0 })}
               />
               {errors.price && <p className="text-xs text-destructive">{errors.price.message}</p>}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="currency">Currency</Label>
               <Select defaultValue="USD" onValueChange={(val) => setValue("currency", val as string)}>
@@ -138,7 +140,7 @@ export function CreateProductDialog() {
               </Select>
             </div>
           </div>
-          
+
           <DialogFooter className="pt-4">
             <Button type="button" variant="outline" onClick={() => setOpen(false)}>
               Cancel
