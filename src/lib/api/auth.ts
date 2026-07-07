@@ -14,44 +14,50 @@ export interface LoginResponse {
 }
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
-  const response = await apiClient.post<ApiResponse<LoginResponse>>("/auth/login", {
-    email,
-    password,
+  const response = await fetch("/api/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
   });
   
-  const data = response.data.data;
-  if (data && data.token) {
+  const json = await response.json();
+  if (!response.ok) {
+    throw new Error(json.message || "Login failed");
+  }
+
+  const data = json.data;
+  if (data && data.merchantId) {
     if (typeof window !== "undefined") {
-      localStorage.setItem("fluxpay_token", data.token);
-      if (data.merchantId) {
-        localStorage.setItem("fluxpay_merchant_id", data.merchantId);
-      }
+      localStorage.setItem("fluxpay_merchant_id", data.merchantId);
     }
   }
   return data;
 };
 
 export const register = async (email: string, password: string): Promise<LoginResponse> => {
-  const response = await apiClient.post<ApiResponse<LoginResponse>>("/auth/register", {
-    email,
-    password,
+  const response = await fetch("/api/auth/register", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email, password }),
   });
   
-  const data = response.data.data;
-  if (data && data.token) {
+  const json = await response.json();
+  if (!response.ok) {
+    throw new Error(json.message || "Registration failed");
+  }
+
+  const data = json.data;
+  if (data && data.merchantId) {
     if (typeof window !== "undefined") {
-      localStorage.setItem("fluxpay_token", data.token);
-      if (data.merchantId) {
-        localStorage.setItem("fluxpay_merchant_id", data.merchantId);
-      }
+      localStorage.setItem("fluxpay_merchant_id", data.merchantId);
     }
   }
   return data;
 };
 
-export const logout = () => {
+export const logout = async () => {
+  await fetch("/api/auth/logout", { method: "POST" });
   if (typeof window !== "undefined") {
-    localStorage.removeItem("fluxpay_token");
     localStorage.removeItem("fluxpay_merchant_id");
     window.location.href = "/login";
   }
