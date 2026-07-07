@@ -142,7 +142,7 @@ export default function CheckoutPage() {
             <CreditCard className="w-5 h-5 group-hover:scale-110 transition-transform" />
             <span>Pay {new Intl.NumberFormat("en-US", { style: "currency", currency: currency }).format(amountTotal)}</span>
           </button>
-          
+
           <div className="flex items-center justify-center mt-6 text-slate-500 text-xs space-x-1">
             <Lock className="w-3 h-3" />
             <span>Payments are secure and encrypted</span>
