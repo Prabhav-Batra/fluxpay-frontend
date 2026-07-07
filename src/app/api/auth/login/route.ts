@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     
     // Call the Java backend
-    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+    const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://fluxpay-backend-osqv.onrender.com/api/v1";
     const res = await fetch(`${backendUrl}/auth/login`, {
       method: "POST",
       headers: {

@@ -22,7 +22,7 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
 
 async function handleProxyRequest(request: NextRequest, pathArray: string[]) {
   const path = pathArray.join("/");
-  const backendUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api/v1";
+  const backendUrl = process.env.NEXT_PUBLIC_API_URL || "https://fluxpay-backend-osqv.onrender.com/api/v1";
   const url = new URL(`${backendUrl}/${path}`);
   
   // Forward query params
