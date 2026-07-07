@@ -5,8 +5,8 @@ export interface WebhookEndpointDto {
   id: string;
   url: string;
   merchantId: string;
-  secret: string;
-  events: string[];
+  secretKey: string;
+  events?: string[];
   active: boolean;
   createdAt: string;
 }

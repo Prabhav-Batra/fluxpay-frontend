@@ -101,14 +101,14 @@ export default function WebhooksPage() {
                   <div>
                     <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Signing Secret</label>
                     <div className="mt-1 font-mono text-sm bg-muted border border-border rounded-md p-2 text-primary break-all">
-                      {endpoint.secret || "whsec_..."}
+                      {endpoint.secretKey || "whsec_..."}
                     </div>
                   </div>
                 </div>
 
                 <div className="flex flex-col sm:items-end justify-between border-t sm:border-t-0 sm:border-l border-border pt-4 sm:pt-0 sm:pl-6">
                   <div className="flex flex-wrap gap-2 mb-4 sm:mb-0">
-                    {endpoint.events.map((e) => (
+                    {(endpoint.events || ["payment.succeeded", "payment.failed"]).map((e) => (
                       <span key={e} className="px-2.5 py-1 rounded-full bg-muted border border-border text-xs font-medium text-foreground">
                         {e}
                       </span>
