@@ -45,6 +45,7 @@ export default function PayProductPage() {
 
     setIsSubmitting(true);
     try {
+      const origin = window.location.origin;
       const res = await fetch(`/api/proxy/checkout/sessions`, {
         method: "POST",
         headers: {
@@ -52,7 +53,9 @@ export default function PayProductPage() {
         },
         body: JSON.stringify({
           productId: product.id,
-          customerEmail: email
+          customerEmail: email,
+          successUrl: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+          cancelUrl: window.location.href
         })
       });
 
