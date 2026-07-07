@@ -75,9 +75,12 @@ export const columns: ColumnDef<Product>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuGroup><DropdownMenuLabel>Actions</DropdownMenuLabel></DropdownMenuGroup>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(product.id)}
+              onClick={() => {
+                const origin = typeof window !== 'undefined' ? window.location.origin : '';
+                navigator.clipboard.writeText(`${origin}/pay/${product.id}`);
+              }}
             >
-              Copy product ID
+              Copy pay link
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Edit product</DropdownMenuItem>
