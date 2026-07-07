@@ -1,19 +1,23 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxyRequest(request, params.path);
+export async function GET(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  const resolvedParams = await params;
+  return handleProxyRequest(request, resolvedParams.path);
 }
 
-export async function POST(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxyRequest(request, params.path);
+export async function POST(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  const resolvedParams = await params;
+  return handleProxyRequest(request, resolvedParams.path);
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxyRequest(request, params.path);
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  const resolvedParams = await params;
+  return handleProxyRequest(request, resolvedParams.path);
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { path: string[] } }) {
-  return handleProxyRequest(request, params.path);
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ path: string[] }> }) {
+  const resolvedParams = await params;
+  return handleProxyRequest(request, resolvedParams.path);
 }
 
 async function handleProxyRequest(request: NextRequest, pathArray: string[]) {
