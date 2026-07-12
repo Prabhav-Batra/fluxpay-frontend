@@ -14,13 +14,13 @@ function SuccessContent() {
     <div className="min-h-screen bg-[#0F172A] text-slate-200 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center font-sans">
       <div className="max-w-md w-full bg-slate-800/50 backdrop-blur-xl border border-slate-700/50 rounded-3xl p-8 shadow-2xl text-center">
         
-        <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-emerald-500/30 shadow-lg shadow-emerald-500/20">
-          <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+        <div className="w-20 h-20 bg-indigo-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-indigo-500/30 shadow-lg shadow-indigo-500/20">
+          <CheckCircle2 className="w-10 h-10 text-indigo-400" />
         </div>
         
-        <h1 className="text-3xl font-bold text-white mb-4">Payment Successful!</h1>
+        <h1 className="text-3xl font-bold text-white mb-4">Processing Complete</h1>
         <p className="text-slate-400 mb-8">
-          Thank you for your purchase. Your order has been confirmed.
+          You can safely close this window. Your payment status will be updated in your app automatically.
         </p>
 
         {orderId && (
