@@ -48,6 +48,9 @@ export default function PayProductPage() {
       const origin = window.location.origin;
       const urlParams = new URLSearchParams(window.location.search);
       const merchantReference = urlParams.get("ref") || urlParams.get("clientReferenceId");
+      const returnUrl = urlParams.get("return_url");
+
+      const successRedirect = `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}${returnUrl ? `&return_url=${encodeURIComponent(returnUrl)}` : ""}`;
 
       const res = await fetch(`/api/proxy/checkout/sessions`, {
         method: "POST",
@@ -57,7 +60,7 @@ export default function PayProductPage() {
         body: JSON.stringify({
           productId: product.id,
           customerEmail: email,
-          successUrl: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+          successUrl: successRedirect,
           cancelUrl: window.location.href,
           ...(merchantReference && { merchantReference })
         })

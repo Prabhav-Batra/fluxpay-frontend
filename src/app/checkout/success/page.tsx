@@ -8,7 +8,16 @@ function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const orderId = searchParams.get("order_id");
+  const returnUrl = searchParams.get("return_url");
   const router = useRouter();
+
+  const handleReturn = () => {
+    if (returnUrl) {
+      window.location.href = returnUrl;
+    } else {
+      router.push("/");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#0F172A] text-slate-200 py-12 px-4 sm:px-6 lg:px-8 flex items-center justify-center font-sans">
@@ -31,10 +40,10 @@ function SuccessContent() {
         )}
 
         <button
-          onClick={() => router.push("/")}
+          onClick={handleReturn}
           className="w-full bg-slate-700 hover:bg-slate-600 text-white font-semibold py-4 px-6 rounded-2xl transition-all flex items-center justify-center space-x-2"
         >
-          <span>Return Home</span>
+          <span>{returnUrl ? "Return to App" : "Return Home"}</span>
           <ArrowRight className="w-4 h-4" />
         </button>
         
