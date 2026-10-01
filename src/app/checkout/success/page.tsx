@@ -3,12 +3,14 @@
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { CheckCircle2, ArrowRight } from "lucide-react";
+import { safeRedirectUrl } from "@/lib/payments/razorpay";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const orderId = searchParams.get("order_id");
-  const returnUrl = searchParams.get("return_url");
+  // Only follow http(s) URLs - a javascript: URL here would run script on our origin
+  const returnUrl = safeRedirectUrl(searchParams.get("return_url"));
   const router = useRouter();
 
   const handleReturn = () => {
