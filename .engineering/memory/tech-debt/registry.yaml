@@ -1,0 +1,6 @@
+- id: FE-TD-000
+  date: "2026-10-02"
+  description: "Registry initialised."
+  impact: "None"
+  location: "-"
+  status: "resolved"

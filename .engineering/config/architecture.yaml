@@ -1,0 +1,32 @@
+# ProjectOS Configuration: architecture.yaml
+# SCHEMA VERSION: 1.0.0
+# Design spec: fluxpay-backend/docs/superpowers/specs/2026-10-02-fluxpay-v1-design.md §3.2
+
+api_version: v1
+kind: ArchitectureConfig
+spec:
+  pattern: "feature-folders"    # src/features/<feature>/{components,api,hooks,schemas}; src/app holds routes only
+
+  deployment:
+    target: "vercel"
+    cloud_providers:
+      - name: "vercel"
+        primary_region: "bom1"
+
+  communication:
+    sync:
+      protocol: "rest"          # fluxpay-backend /api/v1 via a typed client in src/lib/api
+    async:
+      protocol: "none"
+
+  boundaries:
+    - module: "lib"             # api client, utils, money formatting
+      dependencies: []
+    - module: "components/ui"   # shadcn primitives
+      dependencies: ["lib"]
+    - module: "features/*"      # auth, products, payment-links, sales, balance, developers, settings, analytics, checkout, admin
+      dependencies: ["lib", "components/ui"]
+    - module: "app"             # routes: (auth), dashboard, admin, pay, l
+      dependencies: ["features/*", "components/ui", "lib"]
+  rules:
+    - "features must not import from other features; share through lib or components"

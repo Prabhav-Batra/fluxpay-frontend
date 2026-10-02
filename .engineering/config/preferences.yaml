@@ -1,0 +1,28 @@
+# ProjectOS Configuration: preferences.yaml
+#
+# SCHEMA VERSION: 1.0.0
+# PURPOSE: Establishes styling, formatting, and workflow preferences.
+# BEHAVIORAL IMPACT:
+# - Directly controls how AI formats generated code, bypassing the AI's default style.
+# - Enforces Git commit message formats, preventing the AI from making malformed commits.
+# - Dictates the level of inline documentation the AI provides.
+
+api_version: v1
+kind: PreferencesConfig
+spec:
+  formatting:
+    indent_style: "space"
+    indent_size: 2
+    max_line_length: 100
+    quotes: "single"
+    
+  workflow:
+    branch_naming:
+      pattern: "^(feature|bugfix|hotfix)/[a-zA-Z0-9-]+$"
+    commit_conventions:
+      type: "conventional-commits" # e.g., feat:, fix:, docs:
+      require_ticket_id: false
+      
+  documentation:
+    require_docstrings: true
+    format: "tsdoc"

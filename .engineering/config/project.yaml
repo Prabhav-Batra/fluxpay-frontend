@@ -1,0 +1,13 @@
+# ProjectOS Configuration
+project:
+  name: "fluxpay-frontend"
+  description: "FluxPay web app: merchant dashboard, platform admin console and hosted checkout pages."
+  version: "1.0.0"
+  profile: "application"
+
+runtime:
+  active_plugins: ["React"]
+  active_workflows: ["new-feature", "api-change", "bug-fix", "security-patch"]
+
+standards:
+  strict_mode: true
