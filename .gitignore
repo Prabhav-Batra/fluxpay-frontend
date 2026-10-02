@@ -23,3 +23,6 @@ test-results/
 .vscode/
 .idea/
 .DS_Store
+
+# superpowers scratch
+.superpowers/
