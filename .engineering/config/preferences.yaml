@@ -18,7 +18,7 @@ spec:
     
   workflow:
     branch_naming:
-      pattern: "^(feature|bugfix|hotfix)/[a-zA-Z0-9-]+$"
+      pattern: "main"  # owner decision 2026-10-02: commit directly to main, no feature branches
     commit_conventions:
       type: "conventional-commits" # e.g., feat:, fix:, docs:
       require_ticket_id: false
