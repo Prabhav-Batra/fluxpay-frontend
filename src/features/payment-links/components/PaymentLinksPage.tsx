@@ -8,13 +8,10 @@ import { ErrorState } from '@/components/ErrorState';
 import { LoadMoreButton } from '@/components/LoadMoreButton';
 import { PageHeader } from '@/components/PageHeader';
 import { Button } from '@/components/ui/button';
+import { useProductOptions } from '@/lib/hooks/useProductOptions';
 
 import type { PaymentLink } from '../api/paymentLinksApi';
-import {
-  usePaymentLinks,
-  useProductOptions,
-  useSetPaymentLinkActive,
-} from '../hooks/usePaymentLinks';
+import { usePaymentLinks, useSetPaymentLinkActive } from '../hooks/usePaymentLinks';
 import { PaymentLinkFormDialog } from './PaymentLinkFormDialog';
 import { PaymentLinksTable } from './PaymentLinksTable';
 
