@@ -65,6 +65,7 @@ export function CheckoutPage({ id }: CheckoutPageProps) {
         name: instructions.merchant_name,
         description: instructions.product_name,
         order_id: instructions.order_id,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         handler: async function (response: any) {
           try {
             const verifyRes = await verifyMutation.mutateAsync({
@@ -73,6 +74,7 @@ export function CheckoutPage({ id }: CheckoutPageProps) {
               razorpay_signature: response.razorpay_signature,
             });
             window.location.href = verifyRes.success_url;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } catch (err: any) {
             setPaymentError(err.message || 'Payment verification failed.');
           }
