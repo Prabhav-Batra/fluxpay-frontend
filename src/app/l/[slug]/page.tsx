@@ -41,13 +41,13 @@ export default async function PaymentLinkRedirect({ params }: PageProps) {
     // The backend returns { id: "cs_...", url: "..." }
     // We redirect the user directly to the local checkout page for that session
     redirect(`/pay/${data.id}`);
-  } catch (error) {
+  } catch (_error) {
     return (
       <div className="flex min-h-screen items-center justify-center p-4 bg-muted/30">
         <div className="text-center">
           <h1 className="text-2xl font-semibold">Service Unavailable</h1>
           <p className="text-muted-foreground mt-2">
-            We couldn't connect to the secure checkout service. Please try again later.
+            We could not connect to the secure checkout service. Please try again later.
           </p>
         </div>
       </div>
