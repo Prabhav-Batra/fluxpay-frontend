@@ -113,7 +113,9 @@ export function CheckoutPage({ id }: CheckoutPageProps) {
         <div className="p-6 md:p-8 flex flex-col gap-6">
           <div className="text-center">
             <h2 className="text-xl font-semibold tracking-tight">{product.name}</h2>
-            <p className="text-muted-foreground text-sm mt-1">{product.description}</p>
+            {product.description && (
+              <p className="text-muted-foreground text-sm mt-1">{product.description}</p>
+            )}
           </div>
 
           {product.image_url && (
